@@ -1,8 +1,7 @@
-import React from 'react'
 
 const UserInfo = () => {
   return (
-    <div>
+    <div style={{padding: 20, textAlign: 'center'}}>
       내 정보
     </div>
   )

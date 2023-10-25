@@ -23,6 +23,12 @@ const Navigation = () => {
             내 앨범
           </NavigateLink>
         </NavigateItem>
+        <NavigateItem>
+          <NavigateLink to="/mypage">
+          <img src="/user.png" alt="아이콘" width="24" />
+            내 정보
+          </NavigateLink>
+        </NavigateItem>
       </NavigateWrap>
     </>
   )
@@ -40,8 +46,8 @@ const NavigateWrap = styled.ul`
 `
 
 const NavigateItem = styled.li`
-  flex: 1 0 33.33%;
-  max-width:33.33%;
+  flex: 1 0 25%;
+  max-width: 25%;
   text-align:center;
 `
 
