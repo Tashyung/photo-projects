@@ -1,34 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ChakraProvider, Container, extendTheme } from "@chakra-ui/react"
+import MainRouter from "./router/MainRouter"
+import { BrowserRouter } from "react-router-dom"
+import LoginRouter from "./router/LoginRouter"
+
+const theme = extendTheme({
+  colors: {
+    mainColor: "#F56565",
+    subColor: "#FEB2B2"
+  }
+})
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  console.log(theme)
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ChakraProvider theme={theme}>
+      <BrowserRouter>
+        <Container minW='390px' bg="white" h="100vh" position="relative" style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+          <LoginRouter />
+          <MainRouter />
+        </Container>
+      </BrowserRouter>
+    </ChakraProvider>
   )
 }
 
