@@ -12,7 +12,7 @@ const {
   VITE_APP_MESSAGINGSENDERID,
   VITE_APP_FIREBASEAPPID,
   VITE_APP_MEASUREMENTID,
-} = process.env;
+} = import.meta.env;
 
 const firebaseConfig = {
   apiKey: VITE_APP_APIKEY,
