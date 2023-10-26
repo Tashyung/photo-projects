@@ -7,6 +7,7 @@ const PhotoList = () => {
         사진 리스트
       </div>
       <div style={{textAlign: 'center'}}>
+        사진저장
         <StyledButton onClick={() => console.log('clicked')} >
           사진 저장
         </StyledButton>
