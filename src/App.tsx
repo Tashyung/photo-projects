@@ -19,11 +19,7 @@ function App() {
           minW="390px"
           bg="white"
           h="100vh"
-          position="relative"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
+          position="relative">
           <LoginRouter />
           <MainRouter />
         </Container>
