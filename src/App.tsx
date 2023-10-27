@@ -15,7 +15,11 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
-        <Container minW="390px" bg="white" h="100vh" position="relative">
+        <Container
+          minW="390px"
+          bg="white"
+          h="100vh"
+          position="relative">
           <LoginRouter />
           <MainRouter />
         </Container>
