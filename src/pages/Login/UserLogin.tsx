@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-
-import {
-  Center,
-  Flex,
-  Image,
-  Img,
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  FormErrorMessage,
-  Input,
-} from '@chakra-ui/react';
-
+import { Center, Flex, Img, FormControl, FormLabel } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import StyledButton from '../../styles/Button';
 import StyledInput from '../../styles/Input';
@@ -28,7 +16,7 @@ const UserLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(`아이디: ${email}, 비밀번호: ${password}`);
     try {
@@ -89,7 +77,7 @@ const UserLogin = () => {
         textAlign={'center'}
         width={400}
         margin={'auto'}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLoginSubmit}>
           <FormControl>
             <FormLabel>이메일</FormLabel>
             <StyledInput
