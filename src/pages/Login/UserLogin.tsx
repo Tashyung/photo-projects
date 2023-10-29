@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-
 import {
   Center,
   Flex,
-  Image,
   Img,
   FormControl,
   FormLabel,
-  FormHelperText,
-  FormErrorMessage,
-  Input,
+  Link,
 } from '@chakra-ui/react';
-
-import { Link, useNavigate } from 'react-router-dom';
+import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import StyledButton from '../../styles/Button';
 import StyledInput from '../../styles/Input';
 import {
@@ -28,7 +23,7 @@ const UserLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(`아이디: ${email}, 비밀번호: ${password}`);
     try {
@@ -37,14 +32,19 @@ const UserLogin = () => {
         email,
         password,
       );
+      alert('로그인에 성공했습니다.');
+      navigate('/shoot');
       const user = userCredential.user;
-      console.log(user);
     } catch (e) {
+      if (e.code === 'auth/invalid-email') {
+        alert('이메일을 입력해주세요.');
+      } else if (e.code === 'auth/missing-password') {
+        alert('비밀번호를 입력해주세요.');
+      } else {
+        alert('로그인에 실패했습니다.');
+      }
       const errorCode = e.code;
-      const errorMessage = e.message;
       console.log(errorCode);
-      console.log(errorMessage);
-      // Handle the error accordingly
     }
   };
 
@@ -60,10 +60,11 @@ const UserLogin = () => {
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
         // ...
-        console.log('로그인성공');
+        alert('로그인에 성공했습니다.');
+        navigate('/shoot');
       })
       .catch((error) => {
-        console.log('로그인실패');
+        alert('로그인에 실패했습니다.');
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -89,7 +90,7 @@ const UserLogin = () => {
         textAlign={'center'}
         width={400}
         margin={'auto'}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLoginSubmit}>
           <FormControl>
             <FormLabel>이메일</FormLabel>
             <StyledInput
@@ -107,7 +108,6 @@ const UserLogin = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-
             <StyledButton
               style={{ width: 189, marginBottom: 10 }}
               type="submit">
@@ -120,8 +120,12 @@ const UserLogin = () => {
       <Img src="/googleLogin.svg" onClick={handleGoogleLogin}></Img>
 
       <Flex justifyContent={'center'} gap="10px" padding="10">
-        <Link to="join">회원가입</Link>
-        <Link to="account">아이디 / PW찾기</Link>
+        <Link as={ReactRouterLink} to="join" marginRight={2}>
+          회원가입
+        </Link>
+        <Link as={ReactRouterLink} to="account" marginLeft={2}>
+          아이디/PW찾기
+        </Link>
       </Flex>
     </Center>
   );
