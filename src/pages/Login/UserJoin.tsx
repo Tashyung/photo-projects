@@ -7,10 +7,10 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import StyledButton from '../../styles/Button';
 import StyledInput from '../../styles/Input';
-import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebase';
 
 interface FormData {
@@ -105,7 +105,7 @@ const UserJoin = () => {
 
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('회원가입완료');
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -113,12 +113,14 @@ const UserJoin = () => {
         formData.password,
       );
       const user = userCredential.user;
-      console.log(user);
-    } catch (e) {
-      const errorCode = e.code;
-      const errorMessage = e.message;
-      console.log(errorCode);
-      console.log(errorMessage);
+      alert('회원가입에 성공했습니다.');
+      navigate('/');
+    } catch (e: any) {
+      if (e.code === 'auth/email-already-in-use') {
+        alert('이미 가입된 이메일 입니다.');
+      } else {
+        alert('회원가입에 실패했습니다');
+      }
     }
   };
 
@@ -195,12 +197,3 @@ const UserJoin = () => {
 };
 
 export default UserJoin;
-
-//   // 휴대폰 번호 유효성 검사
-// if (formData.phone.trim() === '') {
-//   newErrors.phone = '휴대폰 번호를 입력하세요.';
-//   setIsValid(false);
-// } else if (!/^(010|02)-\d{3,4}-\d{4}$/.test(formData.phone)) {
-//   newErrors.phone = '010-1234-1234 형식으로 입력해주세요';
-//   setIsValid(false);
-// }
