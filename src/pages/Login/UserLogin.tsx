@@ -17,7 +17,6 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../../firebase';
 
-
 const UserLogin = () => {
   const navigate = useNavigate();
 
@@ -26,7 +25,6 @@ const UserLogin = () => {
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(`아이디: ${email}, 비밀번호: ${password}`);
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -36,7 +34,6 @@ const UserLogin = () => {
       alert('로그인에 성공했습니다.');
       navigate('/shoot');
       const user = userCredential.user;
-      console.log(user.uid);
     } catch (e) {
       if (e.code === 'auth/invalid-email') {
         alert('이메일을 입력해주세요.');
@@ -46,7 +43,6 @@ const UserLogin = () => {
         alert('로그인에 실패했습니다.');
       }
       const errorCode = e.code;
-      console.log(errorCode);
     }
   };
 
