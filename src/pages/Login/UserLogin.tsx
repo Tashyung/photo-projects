@@ -17,6 +17,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../../firebase';
 
+
 const UserLogin = () => {
   const navigate = useNavigate();
 
@@ -35,6 +36,7 @@ const UserLogin = () => {
       alert('로그인에 성공했습니다.');
       navigate('/shoot');
       const user = userCredential.user;
+      console.log(user.uid);
     } catch (e) {
       if (e.code === 'auth/invalid-email') {
         alert('이메일을 입력해주세요.');
