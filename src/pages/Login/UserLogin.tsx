@@ -25,7 +25,6 @@ const UserLogin = () => {
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(`아이디: ${email}, 비밀번호: ${password}`);
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -44,7 +43,6 @@ const UserLogin = () => {
         alert('로그인에 실패했습니다.');
       }
       const errorCode = e.code;
-      console.log(errorCode);
     }
   };
 

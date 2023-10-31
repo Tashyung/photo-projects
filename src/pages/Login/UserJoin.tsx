@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
-
 import {
   Center,
   FormControl,
   FormLabel,
   FormErrorMessage,
 } from '@chakra-ui/react';
-
 import { useNavigate } from 'react-router-dom';
 import StyledButton from '../../styles/Button';
 import StyledInput from '../../styles/Input';
+import { auth, db } from '../../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../firebase';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  setDoc,
+  Firestore,
+} from 'firebase/firestore';
 
 interface FormData {
   email: string;
@@ -103,16 +110,47 @@ const UserJoin = () => {
     });
   }, [formData]);
 
+  const addUserDataToFirestore = async (
+    db: Firestore,
+    uid: string,
+    nickname: string,
+  ) => {
+    try {
+      const userDocRef = doc(db, 'user', uid);
+      await setDoc(userDocRef, {
+        receiveImg: [],
+        sendImg: [],
+        nickname,
+        uid,
+      });
+    } catch (e) {
+      alert('유저데이터 업로드에 실패 했습니다. ');
+    }
+  };
+
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      const q = query(
+        collection(db, 'user'),
+        where('nickname', '==', formData.nickname),
+      );
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        alert('닉네임이 이미 사용 중입니다.');
+        return;
+      }
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         formData.email,
         formData.password,
       );
       const user = userCredential.user;
+      await addUserDataToFirestore(db, user.uid, formData.nickname);
+
       alert('회원가입에 성공했습니다.');
       navigate('/');
     } catch (e: any) {
