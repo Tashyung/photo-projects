@@ -1,4 +1,5 @@
-import KakaoMap from "../../components/template/Kakaomap"
+import KakaoMap from "../../components/template/KakaoMap"
+
 
 const PhotoDetail = () => {
   return (
