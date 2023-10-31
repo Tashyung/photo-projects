@@ -35,14 +35,20 @@ const MainRouter = () => {
           <Navigation />
           <PhotoArrival />
         </>
-        }/>
+      }/>
         <Route path="/lists" element={
           <>
             <Navigation />
             <PhotoList />
-          </>}>
-          <Route path=":id" element={<PhotoDetail />}/>
+          </>
+        }>
         </Route>
+        <Route path="/detail" element={
+          <>
+            <Navigation />
+            <PhotoDetail />
+          </>
+        }/>
       </Routes>
     </>
   )

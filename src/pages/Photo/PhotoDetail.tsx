@@ -1,10 +1,12 @@
-
+import KakaoMap from "../../components/template/Kakaomap"
 
 const PhotoDetail = () => {
   return (
-    <div style={{padding: 20, textAlign: 'center'}}>
-      사진 상세
-    </div>
+    <>
+      <div>상세페이지</div>
+      <KakaoMap />
+      <img src="/camera.png"/>
+    </>
   )
 }
 

@@ -23,22 +23,7 @@ const PhotoList = () => {
       </ButtonWrap>
       </Flex>
       <ListWrap style={{marginTop: 20}}>
-        <ListItem to=":id">
-          <img src="http://via.placeholder.com/400x500"/>
-        </ListItem>
-        <ListItem to=":id">
-          <img src="http://via.placeholder.com/400x500"/>
-        </ListItem>
-        <ListItem to=":id">
-          <img src="http://via.placeholder.com/400x500"/>
-        </ListItem>
-        <ListItem to=":id">
-          <img src="http://via.placeholder.com/400x500"/>
-        </ListItem>
-        <ListItem to=":id">
-          <img src="http://via.placeholder.com/400x500"/>
-        </ListItem>
-        <ListItem to=":id">
+        <ListItem to="/detail">
           <img src="http://via.placeholder.com/400x500"/>
         </ListItem>
       </ListWrap>

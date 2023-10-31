@@ -11,7 +11,6 @@ const theme = extendTheme({
 });
 
 function App() {
-  console.log(theme);
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
