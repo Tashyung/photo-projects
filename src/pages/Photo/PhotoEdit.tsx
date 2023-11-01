@@ -26,26 +26,6 @@ const PhotoEdit = () => {
     return () => unsubscribe();
   }, []);
 
-  // 사용자의 현재 위치
-  useEffect(() => {
-    if (userUID) {
-      if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            setUserLocation(new GeoPoint(latitude, longitude));
-          },
-          (error) => {
-            console.error('위치 정보 가져오기 실패:', error);
-          },
-        );
-      } else {
-        console.error('브라우저에서 지리적 위치를 지원하지 않습니다.');
-      }
-    }
-  }, [userUID]);
-
   return (
     <>
       {imageURL && userUID && userLocation && (

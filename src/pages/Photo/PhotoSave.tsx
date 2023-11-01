@@ -7,21 +7,23 @@ import {
   doc,
   updateDoc,
   arrayUnion,
+  GeoPoint,
 } from 'firebase/firestore';
 import { storage, db } from '../../../firebase';
 import { useNavigate } from 'react-router-dom';
+import useGeoLocation from '../../hooks/useGeolocation';
 
 const PhotoSave = ({
   imageURL,
   userUID,
-  userLocation,
 }: {
   imageURL: string;
   userUID: string;
-  userLocation: any;
 }) => {
   const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
+  const userLocation = useGeoLocation();
+  console.log(userLocation);
 
   const handleUpload = async () => {
     setIsUploading(true);
@@ -35,7 +37,6 @@ const PhotoSave = ({
       const downloadURL = await getDownloadURL(storageRef);
 
       const currentTimestamp = new Date(); // 현재 로컬 시간
-      console.log(currentTimestamp);
 
       // Firestore에 데이터 추가
       const imageDocRef = await addDoc(collection(db, 'image'), {
@@ -43,15 +44,18 @@ const PhotoSave = ({
         sender: userUID,
         receiver: '',
         isExchanged: false,
-        timestamp: currentTimestamp, // 현재 로컬 시간 사용
-        location: userLocation,
+        timestamp: currentTimestamp,
+        location: new GeoPoint(
+          userLocation.coordinates.lat,
+          userLocation.coordinates.lng,
+        ),
       });
 
       const userDocRef = doc(db, 'user', userUID);
       await updateDoc(userDocRef, {
         sendImg: arrayUnion({
           imgURL: downloadURL,
-          timestamp: currentTimestamp, // 현재 로컬 시간 사용
+          timestamp: currentTimestamp,
         }),
       });
       alert('사진이 전송 되었습니다!');
