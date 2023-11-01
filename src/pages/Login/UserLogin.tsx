@@ -13,8 +13,8 @@ import StyledButton from '../../styles/Button';
 import StyledInput from '../../styles/Input';
 import {
   signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
+  // GoogleAuthProvider,
+  // signInWithPopup,
   setPersistence,
   browserLocalPersistence,
 } from 'firebase/auth';
@@ -29,16 +29,11 @@ const UserLogin = () => {
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
+      await signInWithEmailAndPassword(auth, email, password);
       alert('로그인에 성공했습니다.');
       setPersistence(auth, browserLocalPersistence);
       navigate('/shoot');
-      const user = userCredential.user;
-    } catch (e) {
+    } catch (e: any) {
       if (e.code === 'auth/invalid-email') {
         alert('이메일을 입력해주세요.');
       } else if (e.code === 'auth/missing-password') {
@@ -46,100 +41,105 @@ const UserLogin = () => {
       } else {
         alert('로그인에 실패했습니다.');
       }
-      const errorCode = e.code;
     }
   };
 
-  const handleGoogleLogin = () => {
-    const provider = new GoogleAuthProvider();
+  // const handleGoogleLogin = () => {
+  //   const provider = new GoogleAuthProvider();
 
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-        alert('로그인에 성공했습니다.');
-        navigate('/shoot');
-      })
-      .catch((error) => {
-        alert('로그인에 실패했습니다.');
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-  };
+  //   signInWithPopup(auth, provider)
+  //     .then((result) => {
+  //       // This gives you a Google Access Token. You can use it to access the Google API.
+  //       const credential = GoogleAuthProvider.credentialFromResult(result);
+  //       const token = credential.accessToken;
+  //       // The signed-in user info.
+  //       const user = result.user;
+  //       // IdP data available using getAdditionalUserInfo(result)
+  //       // ...
+  //       alert('로그인에 성공했습니다.');
+  //       navigate('/shoot');
+  //     })
+  //     .catch((error) => {
+  //       alert('로그인에 실패했습니다.');
+  //       // Handle Errors here.
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       // The email of the user's account used.
+  //       const email = error.customData.email;
+  //       // The AuthCredential type that was used.
+  //       const credential = GoogleAuthProvider.credentialFromError(error);
+  //       // ...
+  //     });
+  // };
   return (
-    <Center flexDirection={'column'}>
-      <Flex justifyContent={'center'}>
-        <Img
-          height={'250px'}
-          marginBottom={'10px'}
-          src="/main.webp"
-          alt="mainImg"
-        />
-      </Flex>
-      <Center
-        flexDirection={'column'}
-        textAlign={'center'}
-        width={400}
-        margin={'auto'}>
-        <form onSubmit={handleLoginSubmit}>
-          <FormControl
-            display={'flex'}
-            flexDirection={'column'}
-            alignItems={'center'}>
-            <Box>
-              <FormLabel width={250} marginTop={5}>
-                이메일
-              </FormLabel>
-              <StyledInput
-                marginBottom={5}
-                placeholder="이메일을 입력해주세요"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Box>
-            <Box>
-              <FormLabel width={250}>비밀번호</FormLabel>
-              <StyledInput
-                marginBottom={5}
-                placeholder="비밀번호를 입력해주세요"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Box>
+    <div
+      style={{
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Center flexDirection={'column'}>
+        <Box>
+          <Img
+            height={'250px'}
+            marginBottom={'10px'}
+            src="/main.webp"
+            alt="mainImg"
+          />
+        </Box>
+        <Box flexDirection={'column'} textAlign={'center'} margin={'auto'}>
+          <form onSubmit={handleLoginSubmit}>
+            <FormControl
+              display={'flex'}
+              flexDirection={'column'}
+              alignItems={'center'}>
+              <Box>
+                <FormLabel width={250} marginTop={10}>
+                  이메일
+                </FormLabel>
+                <StyledInput
+                  marginBottom={5}
+                  placeholder="이메일을 입력해주세요"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Box>
+              <Box>
+                <FormLabel width={250}>비밀번호</FormLabel>
+                <StyledInput
+                  marginBottom={10}
+                  placeholder="비밀번호를 입력해주세요"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Box>
 
-            <StyledButton
-              style={{ width: 350, marginBottom: 20, height: 50 }}
-              type="submit">
-              로그인
-            </StyledButton>
-          </FormControl>
-        </form>
+              <StyledButton
+                width={350}
+                marginBottom={20}
+                height={50}
+                type="submit">
+                로그인
+              </StyledButton>
+            </FormControl>
+          </form>
+        </Box>
+
+        {/* <Img src="/googleLogin.svg" onClick={handleGoogleLogin}></Img> */}
+
+        <Flex justifyContent={'center'} gap="10px" padding="10">
+          <Link as={ReactRouterLink} to="join" marginRight={2}>
+            회원가입
+          </Link>
+          <Link as={ReactRouterLink} to="account" marginLeft={2}>
+            아이디/PW찾기
+          </Link>
+        </Flex>
       </Center>
-
-      <Img src="/googleLogin.svg" onClick={handleGoogleLogin}></Img>
-
-      <Flex justifyContent={'center'} gap="10px" padding="10">
-        <Link as={ReactRouterLink} to="join" marginRight={2}>
-          회원가입
-        </Link>
-        <Link as={ReactRouterLink} to="account" marginLeft={2}>
-          아이디/PW찾기
-        </Link>
-      </Flex>
-    </Center>
+    </div>
   );
 };
 

@@ -164,93 +164,99 @@ const UserJoin = () => {
   };
 
   return (
-    <Center
-      flexDirection={'column'}
-      textAlign={'center'}
-      width={300}
-      margin={'auto'}>
-      <Header title={'회원가입'} />
+    <div
+      style={{
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Center flexDirection={'column'}>
+        <Header title={'회원가입'} />
 
-      <form onSubmit={handleJoinSubmit}>
-        <FormControl
-          isRequired
-          isInvalid={isError.email}
-          marginBottom={5}
-          marginLeft={7}
-          width={250}>
-          <FormLabel>이메일</FormLabel>
-          <StyledInput
-            type="email"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-          />
-          <FormErrorMessage textAlign={'left'}>{errors.email}</FormErrorMessage>
-        </FormControl>
+        <form onSubmit={handleJoinSubmit}>
+          <FormControl
+            isRequired
+            isInvalid={isError.email}
+            marginBottom={5}
+            marginLeft={7}
+            width={250}>
+            <FormLabel>이메일</FormLabel>
+            <StyledInput
+              type="email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+            <FormErrorMessage textAlign={'left'}>
+              {errors.email}
+            </FormErrorMessage>
+          </FormControl>
 
-        <FormControl
-          isRequired
-          isInvalid={isError.password}
-          marginBottom={5}
-          marginLeft={7}
-          width={250}>
-          <FormLabel>비밀번호</FormLabel>
-          <StyledInput
-            type="password"
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-          />
-          <FormErrorMessage textAlign={'left'}>
-            {errors.password}
-          </FormErrorMessage>
-        </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={isError.password}
+            marginBottom={5}
+            marginLeft={7}
+            width={250}>
+            <FormLabel>비밀번호</FormLabel>
+            <StyledInput
+              type="password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+            />
+            <FormErrorMessage textAlign={'left'}>
+              {errors.password}
+            </FormErrorMessage>
+          </FormControl>
 
-        <FormControl
-          isRequired
-          isInvalid={isError.confirmPassword}
-          marginBottom={5}
-          marginLeft={7}
-          width={250}>
-          <FormLabel>비밀번호 확인</FormLabel>
-          <StyledInput
-            type="password"
-            value={formData.confirmPassword}
-            onChange={(e) =>
-              setFormData({ ...formData, confirmPassword: e.target.value })
-            }
-          />
-          <FormErrorMessage textAlign={'left'}>
-            {errors.confirmPassword}
-          </FormErrorMessage>
-        </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={isError.confirmPassword}
+            marginBottom={5}
+            marginLeft={7}
+            width={250}>
+            <FormLabel>비밀번호 확인</FormLabel>
+            <StyledInput
+              type="password"
+              value={formData.confirmPassword}
+              onChange={(e) =>
+                setFormData({ ...formData, confirmPassword: e.target.value })
+              }
+            />
+            <FormErrorMessage textAlign={'left'}>
+              {errors.confirmPassword}
+            </FormErrorMessage>
+          </FormControl>
 
-        <FormControl
-          isRequired
-          isInvalid={isError.nickname}
-          marginBottom={10}
-          marginLeft={7}
-          width={250}>
-          <FormLabel>닉네임</FormLabel>
-          <StyledInput
-            type="text"
-            value={formData.nickname}
-            onChange={(e) =>
-              setFormData({ ...formData, nickname: e.target.value })
-            }
-          />
-          <FormErrorMessage textAlign={'left'}>
-            {errors.nickname}
-          </FormErrorMessage>
-        </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={isError.nickname}
+            marginBottom={10}
+            marginLeft={7}
+            width={250}>
+            <FormLabel>닉네임</FormLabel>
+            <StyledInput
+              type="text"
+              value={formData.nickname}
+              onChange={(e) =>
+                setFormData({ ...formData, nickname: e.target.value })
+              }
+            />
+            <FormErrorMessage textAlign={'left'}>
+              {errors.nickname}
+            </FormErrorMessage>
+          </FormControl>
 
-        <StyledButton style={{ width: 300, marginBottom: 10 }} type="submit">
-          가입하기
-        </StyledButton>
-      </form>
-    </Center>
+          <StyledButton width={300} marginBottom={10} type="submit">
+            가입하기
+          </StyledButton>
+        </form>
+      </Center>
+    </div>
   );
 };
 
