@@ -1,10 +1,19 @@
 import './kakaomap.css'
 import Map from './Map'
 
-function KakaoMap() {
+interface KakaoMapProps {
+  latitude: number | undefined;
+  longitude: number | undefined;
+}
+
+const KakaoMap: React.FC<KakaoMapProps> = ({ latitude, longitude }) => {
+
+  console.log(latitude)
+  console.log(longitude)
+
   return (
     <div className="map">
-      <Map  />
+      <Map latitude={latitude} longitude={longitude} />
     </div>
   );
 }

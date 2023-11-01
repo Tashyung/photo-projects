@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 
-interface ImageData {
+export interface ImageData {
+  imgId: string;
   imgurl: string;
   timestamp: {
     seconds: number;
@@ -17,5 +18,10 @@ export interface imgArray {
 
 export const imgState = atom<imgArray>({
   key: 'imgState', 
-  default: {}, 
+  default: {
+    nickname: '',
+    receiveImg: [],
+    sendImg: [],
+    uid: ''
+  }, 
 });
