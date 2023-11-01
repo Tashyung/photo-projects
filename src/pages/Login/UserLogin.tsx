@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel,
   Link,
+  Box,
 } from '@chakra-ui/react';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import StyledButton from '../../styles/Button';
@@ -92,25 +93,35 @@ const UserLogin = () => {
         width={400}
         margin={'auto'}>
         <form onSubmit={handleLoginSubmit}>
-          <FormControl>
-            <FormLabel>이메일</FormLabel>
-            <StyledInput
-              marginBottom={5}
-              placeholder="이메일을 입력해주세요"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <FormLabel>비밀번호</FormLabel>
-            <StyledInput
-              marginBottom={5}
-              placeholder="비밀번호를 입력해주세요"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          <FormControl
+            display={'flex'}
+            flexDirection={'column'}
+            alignItems={'center'}>
+            <Box>
+              <FormLabel width={250} marginTop={5}>
+                이메일
+              </FormLabel>
+              <StyledInput
+                marginBottom={5}
+                placeholder="이메일을 입력해주세요"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Box>
+            <Box>
+              <FormLabel width={250}>비밀번호</FormLabel>
+              <StyledInput
+                marginBottom={5}
+                placeholder="비밀번호를 입력해주세요"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Box>
+
             <StyledButton
-              style={{ width: 189, marginBottom: 10 }}
+              style={{ width: 350, marginBottom: 20, height: 50 }}
               type="submit">
               로그인
             </StyledButton>

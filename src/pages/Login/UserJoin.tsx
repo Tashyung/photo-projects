@@ -19,6 +19,7 @@ import {
   setDoc,
   Firestore,
 } from 'firebase/firestore';
+import Header from '../../components/layout/Header';
 
 interface FormData {
   email: string;
@@ -166,10 +167,17 @@ const UserJoin = () => {
     <Center
       flexDirection={'column'}
       textAlign={'center'}
-      width={400}
+      width={300}
       margin={'auto'}>
+      <Header title={'회원가입'} />
+
       <form onSubmit={handleJoinSubmit}>
-        <FormControl isRequired isInvalid={isError.email} marginBottom={5}>
+        <FormControl
+          isRequired
+          isInvalid={isError.email}
+          marginBottom={5}
+          marginLeft={7}
+          width={250}>
           <FormLabel>이메일</FormLabel>
           <StyledInput
             type="email"
@@ -181,7 +189,12 @@ const UserJoin = () => {
           <FormErrorMessage textAlign={'left'}>{errors.email}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isRequired isInvalid={isError.password} marginBottom={5}>
+        <FormControl
+          isRequired
+          isInvalid={isError.password}
+          marginBottom={5}
+          marginLeft={7}
+          width={250}>
           <FormLabel>비밀번호</FormLabel>
           <StyledInput
             type="password"
@@ -198,7 +211,9 @@ const UserJoin = () => {
         <FormControl
           isRequired
           isInvalid={isError.confirmPassword}
-          marginBottom={5}>
+          marginBottom={5}
+          marginLeft={7}
+          width={250}>
           <FormLabel>비밀번호 확인</FormLabel>
           <StyledInput
             type="password"
@@ -212,7 +227,12 @@ const UserJoin = () => {
           </FormErrorMessage>
         </FormControl>
 
-        <FormControl isRequired isInvalid={isError.nickname} marginBottom={5}>
+        <FormControl
+          isRequired
+          isInvalid={isError.nickname}
+          marginBottom={10}
+          marginLeft={7}
+          width={250}>
           <FormLabel>닉네임</FormLabel>
           <StyledInput
             type="text"
@@ -226,7 +246,7 @@ const UserJoin = () => {
           </FormErrorMessage>
         </FormControl>
 
-        <StyledButton style={{ width: 189, marginBottom: 10 }} type="submit">
+        <StyledButton style={{ width: 300, marginBottom: 10 }} type="submit">
           가입하기
         </StyledButton>
       </form>
