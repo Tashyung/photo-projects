@@ -14,6 +14,8 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  setPersistence,
+  browserLocalPersistence,
 } from 'firebase/auth';
 import { auth } from '../../../firebase';
 
@@ -32,6 +34,7 @@ const UserLogin = () => {
         password,
       );
       alert('로그인에 성공했습니다.');
+      setPersistence(auth, browserLocalPersistence);
       navigate('/shoot');
       const user = userCredential.user;
     } catch (e) {
