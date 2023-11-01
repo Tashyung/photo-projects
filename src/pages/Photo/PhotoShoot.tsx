@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
-import StyledButton from '../../styles/Button';
-import { Button, Center } from '@chakra-ui/react';
+import { Container, Button, Center } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 const PhotoShoot = () => {
@@ -31,7 +30,7 @@ const PhotoShoot = () => {
   };
 
   return (
-    <>
+    <Container centerContent>
       {selectedImage && (
         <Center>
           <img
@@ -57,7 +56,7 @@ const PhotoShoot = () => {
           onChange={handleFileChange}
         />
       </div>
-    </>
+    </Container>
   );
 };
 

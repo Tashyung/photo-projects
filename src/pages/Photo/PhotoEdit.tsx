@@ -1,34 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Button, Center } from '@chakra-ui/react';
-import StyledButton from '../../styles/Button';
+import { useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Center } from '@chakra-ui/react';
 import PhotoSave from './PhotoSave';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { auth, db } from '../../../firebase';
-import { GeoPoint, doc, getDoc } from 'firebase/firestore';
+import { AuthContext } from '../../provider/authContext';
 
 const PhotoEdit = () => {
   const location = useLocation();
   const imageURL = new URLSearchParams(location.search).get('imageURL');
-  const [userUID, setUserUID] = useState(null);
-  const [userLocation, setUserLocation] = useState(new GeoPoint(0, 0));
+  const navigate = useNavigate();
 
-  console.log('imageURL: ', imageURL);
-
-  useEffect(() => {
-    // 현재 로그인한 사용자의 UID 가져오기
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserUID(user.uid);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const user = useContext(AuthContext);
+  if (!user) {
+    navigate('/login');
+    return null;
+  }
 
   return (
     <>
-      {imageURL && userUID && userLocation && (
+      {imageURL && user.uid && (
         <>
           <Center>
             <img
@@ -37,11 +26,7 @@ const PhotoEdit = () => {
             />
           </Center>
           <Center>
-            <PhotoSave
-              imageURL={imageURL}
-              userUID={userUID}
-              userLocation={userLocation}
-            />
+            <PhotoSave imageURL={imageURL} userUID={user.uid} />
           </Center>
         </>
       )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@chakra-ui/react';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import {
@@ -39,15 +39,15 @@ const PhotoSave = ({
       const currentTimestamp = new Date(); // 현재 로컬 시간
 
       // Firestore에 데이터 추가
-      const imageDocRef = await addDoc(collection(db, 'image'), {
+      await addDoc(collection(db, 'image'), {
         imageURL: downloadURL,
         sender: userUID,
         receiver: '',
         isExchanged: false,
         timestamp: currentTimestamp,
         location: new GeoPoint(
-          userLocation.coordinates.lat,
-          userLocation.coordinates.lng,
+          userLocation?.coordinates?.lat || 0,
+          userLocation?.coordinates?.lng || 0,
         ),
       });
 

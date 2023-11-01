@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Center, Image } from '@chakra-ui/react';
-import StyledButton from '../../styles/Button';
-import { db, auth } from '../../../firebase';
+import { db } from '../../../firebase';
 import {
   collection,
   query,
@@ -11,30 +10,24 @@ import {
   updateDoc,
   doc,
 } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+import { AuthContext } from '../../provider/authContext';
 
 const PhotoArrival = () => {
   const navigate = useNavigate();
   const [randomPhoto, setRandomPhoto] = useState(null);
-  const [userUID, setUserUID] = useState(null);
+  const user = useContext(AuthContext);
+  if (!user) {
+    navigate('/login');
+    return null;
+  }
 
-  // 사용자의 UID 가져오기
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserUID(user.uid);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
   const getRandomPhoto = async () => {
     const photosRef = collection(db, 'image');
     const querySnapshot = await getDocs(
       query(photosRef, where('isExchanged', '==', false)),
     );
 
-    const photos = [];
+    const photos: any = [];
     querySnapshot.forEach((doc) => {
       photos.push(doc);
     });
@@ -44,8 +37,8 @@ const PhotoArrival = () => {
       const randomPhotoDoc = photos[randomIndex];
 
       await updateDoc(doc(photosRef, randomPhotoDoc.id), {
-        // isExchanged: true,
-        receiver: userUID,
+        isExchanged: true,
+        receiver: user.uid,
       });
 
       setRandomPhoto(randomPhotoDoc.data().imageURL);
