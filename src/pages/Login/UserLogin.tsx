@@ -19,6 +19,7 @@ import {
   browserLocalPersistence,
 } from 'firebase/auth';
 import { auth } from '../../../firebase';
+import addUserDataToFirestore from './UserJoin';
 
 const UserLogin = () => {
   const navigate = useNavigate();
@@ -44,25 +45,22 @@ const UserLogin = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
 
-    signInWithPopup(auth, provider)
-      .then(() => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        // // The signed-in user info.
-        // const user = result.user;
-        // // IdP data available using getAdditionalUserInfo(result)
-        // // ...
-        alert('로그인에 성공했습니다.');
-        navigate('/shoot');
-      })
-      .catch(() => {
-        alert('로그인에 실패했습니다.');
-      });
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log(user);
+
+      alert('로그인에 성공했습니다.');
+      navigate('/shoot');
+    } catch (error) {
+      console.error(error); // 로그인 에러를 콘솔에 출력
+      alert('로그인에 실패했습니다.');
+    }
   };
+  
   return (
     <div
       style={{

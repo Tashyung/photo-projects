@@ -33,6 +33,24 @@ interface ValidationInput {
   formData: FormData;
 }
 
+const addUserDataToFirestore = async (
+  db: Firestore,
+  uid: string,
+  nickname: string,
+) => {
+  try {
+    const userDocRef = doc(db, 'user', uid);
+    await setDoc(userDocRef, {
+      receiveImg: [],
+      sendImg: [],
+      nickname,
+      uid,
+    });
+  } catch (e) {
+    alert('유저데이터 업로드에 실패 했습니다. ');
+  }
+};
+
 const UserJoin = () => {
   const navigate = useNavigate();
 
@@ -110,24 +128,6 @@ const UserJoin = () => {
       setIsError((prevIsError) => ({ ...prevIsError, [fieldName]: !!error }));
     });
   }, [formData]);
-
-  const addUserDataToFirestore = async (
-    db: Firestore,
-    uid: string,
-    nickname: string,
-  ) => {
-    try {
-      const userDocRef = doc(db, 'user', uid);
-      await setDoc(userDocRef, {
-        receiveImg: [],
-        sendImg: [],
-        nickname,
-        uid,
-      });
-    } catch (e) {
-      alert('유저데이터 업로드에 실패 했습니다. ');
-    }
-  };
 
   const handleJoinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -260,4 +260,4 @@ const UserJoin = () => {
   );
 };
 
-export default UserJoin;
+export default { addUserDataToFirestore, UserJoin };
