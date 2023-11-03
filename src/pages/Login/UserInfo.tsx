@@ -1,10 +1,19 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../provider/authContext';
-import { auth } from '../../../firebase';
+import { auth, db } from '../../../firebase';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  setDoc,
+  Firestore,
+} from 'firebase/firestore';
 
 const UserInfo = () => {
   const user = useContext(AuthContext);
-  console.log('유저는', user);
+  const [userName, setUserName] = useState<string>('');
 
   const handleLogout = async () => {
     try {
@@ -16,10 +25,27 @@ const UserInfo = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user) {
+        const q = query(collection(db, 'user'), where('uid', '==', user.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          setUserName(doc.data().nickname);
+        });
+      } else {
+        console.log('데이터 찾기 오류');
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <div style={{ padding: 20, textAlign: 'center' }}>내 정보</div>;
       <button onClick={handleLogout}>로그아웃</button>
+      <div>{userName}</div>
     </>
   );
 };
