@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { storage, db } from '../../../firebase';
 import { useNavigate } from 'react-router-dom';
-import useGeoLocation from '../../hooks/useGeolocation';
+import useGeolocation from '../../hooks/useGeoLocation';
 
 const PhotoSave = ({
   imageURL,
@@ -22,7 +22,7 @@ const PhotoSave = ({
 }) => {
   const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
-  const userLocation = useGeoLocation();
+  const userLocation = useGeolocation();
   console.log(userLocation);
 
   const handleUpload = async () => {
