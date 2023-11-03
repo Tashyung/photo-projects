@@ -32,17 +32,19 @@ const UserLogin = () => {
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      alert('로그인에 성공했습니다.');
       await signInWithEmailAndPassword(auth, email, password);
-      setPersistence(auth, browserLocalPersistence);
+      alert('로그인에 성공했습니다.');
+      await setPersistence(auth, browserLocalPersistence);
       navigate('/shoot');
     } catch (e: any) {
       if (e.code === 'auth/invalid-email') {
-        alert('이메일을 입력해주세요.');
-      } else if (e.code === 'auth/missing-password') {
-        alert('비밀번호를 입력해주세요.');
+        alert('유효하지 않은 이메일 주소입니다.');
+      } else if (e.code === 'auth/wrong-password') {
+        alert('잘못된 비밀번호입니다.');
+      } else if (e.code === 'auth/user-not-found') {
+        alert('존재하지 않는 사용자입니다.');
       } else {
-        alert('로그인에 실패했습니다.');
+        alert('로그인에 실패했습니다: ' + e.message);
       }
     }
   };
