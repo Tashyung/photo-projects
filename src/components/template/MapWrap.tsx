@@ -1,4 +1,4 @@
-import './KaKaoMap.css';
+import './kakaomap.css';
 import KaKaoMaps from './KakaoMap'
 
 interface KakaoMapProps {
