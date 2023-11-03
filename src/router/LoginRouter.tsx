@@ -5,11 +5,13 @@ import UserAccount from '../pages/Login/UserAccount';
 
 const LoginRouter = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/join" element={<UserJoin />} />
-      <Route path="/account" element={<UserAccount />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/join" element={<UserJoin />} />
+        <Route path="/account" element={<UserAccount />} />
+      </Routes>
+    </>
   );
 };
 
