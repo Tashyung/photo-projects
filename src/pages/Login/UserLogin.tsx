@@ -18,7 +18,10 @@ import {
   setPersistence,
   browserLocalPersistence,
 } from 'firebase/auth';
-import { auth } from '../../../firebase';
+import { getDoc, doc } from 'firebase/firestore';
+import { auth, db } from '../../../firebase';
+
+import { addUserDataToFirestore } from './UserJoin'; // 파일 경로는 상황에 맞게 조정하세요.
 
 const UserLogin = () => {
   const navigate = useNavigate();
@@ -29,8 +32,8 @@ const UserLogin = () => {
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
       alert('로그인에 성공했습니다.');
+      await signInWithEmailAndPassword(auth, email, password);
       setPersistence(auth, browserLocalPersistence);
       navigate('/shoot');
     } catch (e: any) {
@@ -44,25 +47,29 @@ const UserLogin = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
 
-    signInWithPopup(auth, provider)
-      .then(() => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        // // The signed-in user info.
-        // const user = result.user;
-        // // IdP data available using getAdditionalUserInfo(result)
-        // // ...
-        alert('로그인에 성공했습니다.');
-        navigate('/shoot');
-      })
-      .catch(() => {
-        alert('로그인에 실패했습니다.');
-      });
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const userDocRef = doc(db, 'user', user.uid);
+      console.log('userDocRef:', userDocRef);
+      const docSnap = await getDoc(userDocRef);
+      console.log('docSnap:', docSnap);
+      if (!docSnap.exists()) {
+        await addUserDataToFirestore(db, user.uid, user.displayName || 'user');
+        console.log('초기화됨');
+      }
+
+      alert('로그인에 성공했습니다.');
+      navigate('/shoot');
+    } catch (error) {
+      console.error(error);
+      alert('로그인에 실패했습니다.');
+    }
   };
+
   return (
     <div
       style={{
