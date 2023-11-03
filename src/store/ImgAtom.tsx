@@ -3,7 +3,7 @@ import { atom } from 'recoil';
 
 export interface ImageData {
   imgId: string;
-  imgurl: string;
+  imgURL: string;
   timestamp: {
     seconds: number;
     nanoseconds: number;

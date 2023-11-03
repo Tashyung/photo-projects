@@ -137,7 +137,7 @@ const PhotoList = () => {
       </Flex>
       <ListWrap style={{marginTop: 20}}>
         {filteredData?.map(item => (       
-           <PhotoItem key={item.imgId} imgId={item.imgId} imgurl={item.imgurl} />
+           <PhotoItem key={item.imgId} imgId={item.imgId} imgURL={item.imgURL} />
         ))}
       </ListWrap>
     </>
