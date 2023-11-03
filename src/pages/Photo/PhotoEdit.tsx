@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Center, Image, Box, Button } from '@chakra-ui/react';
+import { Center, Image, Box } from '@chakra-ui/react';
 import PhotoSave from './PhotoSave';
 import { AuthContext } from '../../provider/authContext';
 import ImageCropper from '../../components/template/ImageCropper';
@@ -119,7 +119,7 @@ const EditToolWrap = styled.ul`
 const EditToolItem = styled.li`
   flex: 1 0 2%;
   max-width: 70px;
-  curser: pointer;
+  cursor: pointer;
   background-color: white;
   display: flex;
   flex-direction: column;

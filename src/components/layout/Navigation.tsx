@@ -38,6 +38,7 @@ export default Navigation
 
 const NavigateWrap = styled.ul`
   position: absolute;
+  z-index: 20;
   width:100%;
   left:0;
   bottom:0;

@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import { Cropper, ReactCropperElement } from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
-import styled from 'styled-components';
-import { Center, Image, Flex, Button } from '@chakra-ui/react';
+import { Flex, Button } from '@chakra-ui/react';
 
 interface ImageCropperProps {
   imageURL: string | null;

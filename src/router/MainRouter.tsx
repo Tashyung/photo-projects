@@ -54,8 +54,13 @@ const MainRouter = () => {
               <PhotoList />
             </>
           }>
-          <Route path=":id" element={<PhotoDetail />} />
         </Route>
+        <Route path="/detail/:id" element={
+          <>
+            <Navigation />
+            <PhotoDetail />
+          </>
+        }/>
       </Routes>
     </>
   );
