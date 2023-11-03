@@ -131,8 +131,8 @@ const PhotoList = () => {
           }
         </Flex>
         <ButtonWrap>
-          <StyledButton onClick={() => filterPhoto('received')} rounded className={active === 'received' ? 'on' : ''} disableHover>received</StyledButton>
-          <StyledButton onClick={() => filterPhoto('send')} rounded oppositeColor className={active === 'send' ? 'on' : ''} disableHover>send</StyledButton>
+          <StyledButton onClick={() => filterPhoto('received')} rounded className={active === 'received' ? 'on' : ''} >received</StyledButton>
+          <StyledButton onClick={() => filterPhoto('send')} rounded oppositeColor className={active === 'send' ? 'on' : ''} >send</StyledButton>
         </ButtonWrap>
       </Flex>
       <ListWrap style={{marginTop: 20}}>

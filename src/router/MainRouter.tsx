@@ -32,7 +32,7 @@ const MainRouter = () => {
           path="/edit"
           element={
             <>
-              <Navigation />
+              {/* <Navigation /> */}
               <PhotoEdit />
             </>
           }
