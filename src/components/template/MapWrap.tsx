@@ -1,5 +1,5 @@
 import './KaKaoMap.css';
-import KaKaoMaps from './KaKaoMap'
+import KaKaoMaps from './KakaoMap'
 
 interface KakaoMapProps {
   latitude: number | undefined;
