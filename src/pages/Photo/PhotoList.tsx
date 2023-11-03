@@ -6,7 +6,7 @@ import { useImages } from '../../api/ImgFilter'
 import { useRecoilValue } from 'recoil'
 import { imgState, ImageData } from '../../store/ImgAtom';
 import { DateRange } from 'react-date-range'
-import '../../api/datepicker.css'
+import './datepicker.css'
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import PhotoItem from '../../components/template/PhotoItem'
