@@ -23,7 +23,6 @@ const PhotoSave = ({
   const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
   const userLocation = useGeolocation();
-  console.log(userLocation);
 
   const handleUpload = async () => {
     setIsUploading(true);
@@ -39,7 +38,7 @@ const PhotoSave = ({
       const currentTimestamp = new Date(); // 현재 로컬 시간
 
       // Firestore에 데이터 추가
-      await addDoc(collection(db, 'image'), {
+      const ImageRef = await addDoc(collection(db, 'image'), {
         imageURL: downloadURL,
         sender: userUID,
         receiver: '',
@@ -51,11 +50,14 @@ const PhotoSave = ({
         ),
       });
 
+      console.log('ImageRef.id:', ImageRef.id);
+
       const userDocRef = doc(db, 'user', userUID);
       await updateDoc(userDocRef, {
         sendImg: arrayUnion({
           imgURL: downloadURL,
           timestamp: currentTimestamp,
+          imgId: ImageRef.id,
         }),
       });
       alert('사진이 전송 되었습니다!');
