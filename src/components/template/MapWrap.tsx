@@ -1,5 +1,5 @@
 import './KaKaoMap.css';
-import KakaoMaps from './KaKaoMap'
+import KaKaoMaps from './KaKaoMap'
 
 interface KakaoMapProps {
   latitude: number | undefined;
@@ -13,7 +13,7 @@ const KakaoMap: React.FC<KakaoMapProps> = ({ latitude, longitude }) => {
 
   return (
     <div className="map">
-      <KakaoMaps latitude={latitude} longitude={longitude} />
+      <KaKaoMaps latitude={latitude} longitude={longitude} />
     </div>
   );
 }
