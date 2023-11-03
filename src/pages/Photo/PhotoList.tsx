@@ -1,33 +1,21 @@
 import styled from 'styled-components'
 import StyledButton from '../../styles/Button'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Flex } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
 import { useImages } from '../../api/ImgFilter'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { imgArray, imgState } from '../../store/ImgAtom';
-import { AuthContext } from '../../provider/authContext'
-import { db } from '../../../firebase'
-import { collection } from 'firebase/firestore'
-import { getDocs, query, where } from 'firebase/firestore'
+import { useRecoilValue } from 'recoil'
+import { imgState, ImageData } from '../../store/ImgAtom';
 import { DateRange } from 'react-date-range'
 import '../../api/datepicker.css'
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-
-interface ImageData {
-  imgId: string;
-  imgurl: string;
-  timestamp: {
-    seconds: number;
-    nanoseconds: number;
-  }; 
-}
+import PhotoItem from '../../components/template/PhotoItem'
 
 const PhotoList = () => {
 
+  // 카테고리 상태관리
   const [active, setActive] = useState('');
-  const [filter, setFilter] = useState('received');
+  const [filter, setFilter] = useState('send');
   
   const filterPhoto = (buttonType: string) => {
     setActive(buttonType);
@@ -40,42 +28,17 @@ const PhotoList = () => {
     }
   }
 
+  // 리스트 전역상태 가져오기
+  useImages();
   const images = useRecoilValue(imgState);
 
-  useImages();
-
-  console.log(images);
-
-  // const receivedImg = images?.receiveImg;
-  // const sendImg = images?.sendImg;
-
-  // image 콜렉션에 문서 id 를 구하는데
-  // 필드 receiveImg 혹은 sendImg 가 uid 인 문서의 id
-  // const user = useContext(AuthContext);
-  // const uid = user?.uid;
-  // const usersCollectionRef = collection(db, "image");
-  // const q = query(usersCollectionRef, where('receiveImg', '==', uid));
-
-
-  // useEffect(() => {
-  //   const getId = async () => {
-  //     try {
-  //       const querySnapshot = await getDocs(q);
-  //       querySnapshot.forEach((doc: any) => {
-  //         const docId = doc.id;
-  //         console.log('해당 문서의 ID:', docId);
-  //         console.log('a');
-  //       });
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-   
-  //   getId();
-  // }, []);
-
   // datePick 부분
-  const [filteredData, setFilteredData] = useState<ImageData[] | undefined>(images?.receiveImg);
+  const [filteredData, setFilteredData] = useState<ImageData[] | undefined>(images?.sendImg);
+
+  // 이 부분의 부재였다 아무리 초기값을 filteredData 에 넣어줘도 렌더링이 안되는 이유,,
+  useEffect(() => {
+    setFilteredData(images?.sendImg);
+  }, [images?.sendImg]);
 
   // 날짜 라이브러리
   const [dateRange, setDateRange] = useState({
@@ -86,6 +49,7 @@ const PhotoList = () => {
 
   const [ showDate, setShowDate ] = useState(false);
   
+  // YY-MM-DD 형식으로 변환
   const startyear = dateRange.startDate.getFullYear();
   const startmonth = String(dateRange.startDate.getMonth() + 1).padStart(2, '0');
   const startday = String(dateRange.startDate.getDate()).padStart(2, '0');
@@ -97,12 +61,32 @@ const PhotoList = () => {
   const formattedStartDate = `${startyear}-${startmonth}-${startday}`;
   const formattedEndDate = `${endyear}-${endmonth}-${endday}`;
 
+  // react-date-range에서 얻은 날짜
+  const startDate = dateRange.startDate;
+  const endDate = dateRange.endDate;
+
+  // 달력 토글
   const datePicking = () => {
-    setShowDate(!showDate)
+    setShowDate(!showDate);
   }
+  const calendarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        setShowDate(false);
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside);
+  
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    }
+  }, [calendarRef]);
+  
 
   const onRangeChange = (ranges: any) => {
-    console.log(ranges); // native Date object
     setDateRange({
       startDate: ranges['selection'].startDate,
       endDate: ranges['selection'].endDate,
@@ -110,23 +94,7 @@ const PhotoList = () => {
     });
   }
 
-  const setImages = useSetRecoilState(imgState); 
-
-  // react-date-range에서 얻은 날짜
-  const startDate = dateRange.startDate;
-  const endDate = dateRange.endDate;
-
-  // Firestore 타임스탬프 형식으로 변환
-  // const firestoreStartDate = {
-  //   seconds: Math.floor(startDate.getTime() / 1000),
-  //   nanoseconds: startDate.getMilliseconds() * 1000000
-  // };
-
-  // const firestoreEndDate = {
-  //   seconds: Math.floor(endDate.getTime() / 1000),
-  //   nanoseconds: endDate.getMilliseconds() * 1000000
-  // };
-
+  // 카테고리 필터링
   useEffect(() => {
     const newData: ImageData[] | undefined = filter === 'received' ? images?.receiveImg : images?.sendImg;
     const filteredData = newData?.filter((item: any) => {
@@ -135,45 +103,42 @@ const PhotoList = () => {
       return itemDate >= startDate && itemDate <= endDate;
     });
 
-    console.log(filteredData);
-    
     if (filteredData) {
       setFilteredData(filteredData); // 필터링된 데이터를 업데이트합니다.
     }
 
   }, [startDate, endDate]);
   
-
   return (
     <>      
-    <Flex paddingTop={5} gap={5} justifyContent={'space-between'}>
-      <Flex alignItems={'center'} gap={5}>
-        <p onClick={() => datePicking()}><img src="/calendar.png" alt="이미지" width="30" /></p>
-        <p>{formattedStartDate} ~ {formattedEndDate}</p> 
-        {
-          showDate && 
-            <DateRange
-            editableDateInputs={true}
-            onChange={onRangeChange}
-            moveRangeOnFirstSelection={false}
-            ranges={[dateRange]}
-            showDateDisplay={false}
-            />          
-        }
-      </Flex>
-      <ButtonWrap>
-        <StyledButton onClick={() => filterPhoto('received')} rounded className={active === 'received' ? 'on' : ''}>received</StyledButton>
-        <StyledButton onClick={() => filterPhoto('send')} rounded oppositeColor className={active === 'send' ? 'on' : ''}>send</StyledButton>
-      </ButtonWrap>
+      <Flex paddingTop={5} gap={5} justifyContent={'space-between'}>
+        <Flex alignItems={'center'} gap={5} ref={calendarRef}>
+          <Flex onClick={() => datePicking()} alignItems={'center'} gap={5} style={{cursor: 'pointer'}}>
+            <p><img src="/calendar.png" alt="이미지" width="30" /></p>
+            <p>{formattedStartDate} ~ {formattedEndDate}</p> 
+          </Flex>
+          {
+            showDate && 
+            <div>
+                <DateRange
+                editableDateInputs={true}
+                onChange={onRangeChange}
+                moveRangeOnFirstSelection={false}
+                ranges={[dateRange]}
+                showDateDisplay={false}
+                />     
+            </div>     
+          }
+        </Flex>
+        <ButtonWrap>
+          <StyledButton onClick={() => filterPhoto('received')} rounded className={active === 'received' ? 'on' : ''} disableHover>received</StyledButton>
+          <StyledButton onClick={() => filterPhoto('send')} rounded oppositeColor className={active === 'send' ? 'on' : ''} disableHover>send</StyledButton>
+        </ButtonWrap>
       </Flex>
       <ListWrap style={{marginTop: 20}}>
-
         {filteredData?.map(item => (       
-          <ListItem to={`/detail/${item.imgId}`} key={Math.random()}>
-            <img src={item.imgurl} alt={'Image'}/>
-          </ListItem>
+           <PhotoItem key={item.imgId} imgId={item.imgId} imgurl={item.imgurl} />
         ))}
-
       </ListWrap>
     </>
   )
@@ -184,13 +149,10 @@ export default PhotoList
 const ListWrap = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: start;
   gap: 10px;
   overflow-y: auto;
   height: 81vh;
-`
-
-const ListItem = styled(Link)`
-  position: relative;
 `
 
 const ButtonWrap = styled.div`

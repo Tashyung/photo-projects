@@ -25,7 +25,9 @@ export const useImages = () => {
         if (querySnapshot && querySnapshot.docs && querySnapshot.docs[0]) {
           const doc = querySnapshot.docs[0];
           const data = doc.data() as imgArray;
+          console.log('data 업데이트');
           setImages(data);
+
         } else {
           console.log("No documents found");
         }
@@ -35,9 +37,7 @@ export const useImages = () => {
     };
 
     getData();
-  }, []);
-
-  // console.log(images)
+  }, [setImages]);
 
   return images;
 };

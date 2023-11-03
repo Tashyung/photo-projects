@@ -7,21 +7,29 @@ interface CustomButtonProps {
   rounded?: boolean;
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  disableHover?: boolean;
 }
 
-const StyledButton: React.FC<CustomButtonProps> = ({ children, oppositeColor, rounded, ...props }) => {
+const StyledButton: React.FC<CustomButtonProps> = ({ children, oppositeColor, rounded, disableHover, ...props }) => {
   const bgColor = oppositeColor ? "white" : "mainColor";
   const textColor = oppositeColor ? "mainColor" : "white";
-  const hoverBgColor = oppositeColor ? "mainColor" : "white";
-  const hoverTextColor = oppositeColor ? "white" : "mainColor";
+
+  let hoverStyles = {};
+  if (!disableHover) {
+    const hoverBgColor = oppositeColor ? "mainColor" : "white";
+    const hoverTextColor = oppositeColor ? "white" : "mainColor";
+    hoverStyles = {
+      _hover: { bg: hoverBgColor, color: hoverTextColor },
+    };
+  }
 
   return (
     <Button
     bg={bgColor}
     color={textColor}
-    _hover={{ bg: hoverBgColor, color: hoverTextColor }}
     borderRadius={rounded ? "20px" : "5px"}
     border={`1px solid ${useToken("colors", "mainColor")}`}
+    {...hoverStyles}
     {...props}
     >
       {children}

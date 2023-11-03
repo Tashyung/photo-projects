@@ -1,3 +1,4 @@
+import { GeoPoint, Timestamp } from 'firebase/firestore';
 import { atom } from 'recoil';
 
 export interface ImageData {
@@ -25,3 +26,12 @@ export const imgState = atom<imgArray>({
     uid: ''
   }, 
 });
+
+export interface detailI {
+  isExchanged: boolean,
+  receiver: string,
+  sender: string,
+  location: GeoPoint,
+  imageURL: string,
+  timestamp: Timestamp
+}
