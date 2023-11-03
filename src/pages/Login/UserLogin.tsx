@@ -18,8 +18,10 @@ import {
   setPersistence,
   browserLocalPersistence,
 } from 'firebase/auth';
-import { auth } from '../../../firebase';
-import addUserDataToFirestore from './UserJoin';
+import { getDoc, doc } from 'firebase/firestore';
+import { auth, db } from '../../../firebase';
+
+import { addUserDataToFirestore } from './UserJoin'; // 파일 경로는 상황에 맞게 조정하세요.
 
 const UserLogin = () => {
   const navigate = useNavigate();
@@ -30,8 +32,8 @@ const UserLogin = () => {
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
       alert('로그인에 성공했습니다.');
+      await signInWithEmailAndPassword(auth, email, password);
       setPersistence(auth, browserLocalPersistence);
       navigate('/shoot');
     } catch (e: any) {
@@ -51,16 +53,23 @@ const UserLogin = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log(user);
+      const userDocRef = doc(db, 'user', user.uid);
+      console.log('userDocRef:', userDocRef);
+      const docSnap = await getDoc(userDocRef);
+      console.log('docSnap:', docSnap);
+      if (!docSnap.exists()) {
+        await addUserDataToFirestore(db, user.uid, user.displayName || 'user');
+        console.log('초기화됨');
+      }
 
       alert('로그인에 성공했습니다.');
       navigate('/shoot');
     } catch (error) {
-      console.error(error); // 로그인 에러를 콘솔에 출력
+      console.error(error);
       alert('로그인에 실패했습니다.');
     }
   };
-  
+
   return (
     <div
       style={{

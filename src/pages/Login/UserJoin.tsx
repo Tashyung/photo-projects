@@ -33,7 +33,7 @@ interface ValidationInput {
   formData: FormData;
 }
 
-const addUserDataToFirestore = async (
+export const addUserDataToFirestore = async (
   db: Firestore,
   uid: string,
   nickname: string,
@@ -260,4 +260,4 @@ const UserJoin = () => {
   );
 };
 
-export default { addUserDataToFirestore, UserJoin };
+export default UserJoin;
