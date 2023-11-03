@@ -3,15 +3,15 @@ import styled from 'styled-components';
 
 interface PhotoItemProps {
   imgId: string;
-  imgurl: string;
+  imgURL: string;
 }
 
-const PhotoItem: React.FC<PhotoItemProps> = ({ imgId, imgurl }) => {
+const PhotoItem: React.FC<PhotoItemProps> = ({ imgId, imgURL }) => {
 
   return (
     <ListItem to={`/detail/${imgId}`}>
       <Frame />
-      <img src={imgurl} alt={'Image'}/>
+      <img src={imgURL} alt={'Image'}/>
     </ListItem>
   );
 }
