@@ -29,7 +29,7 @@ const Map: React.FC<KakaoMapProps> = ({ latitude, longitude }) => {
     return () => {
       document.head.removeChild(script);
     };
-  }, []);
+  }, [latitude, longitude]);
 
   const mapscript = () => {
     if (window.kakao && window.kakao.maps) {
