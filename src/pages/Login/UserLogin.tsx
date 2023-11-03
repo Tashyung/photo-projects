@@ -13,8 +13,8 @@ import StyledButton from '../../styles/Button';
 import StyledInput from '../../styles/Input';
 import {
   signInWithEmailAndPassword,
-  // GoogleAuthProvider,
-  // signInWithPopup,
+  GoogleAuthProvider,
+  signInWithPopup,
   setPersistence,
   browserLocalPersistence,
 } from 'firebase/auth';
@@ -44,33 +44,25 @@ const UserLogin = () => {
     }
   };
 
-  // const handleGoogleLogin = () => {
-  //   const provider = new GoogleAuthProvider();
+  const handleGoogleLogin = () => {
+    const provider = new GoogleAuthProvider();
 
-  //   signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       // This gives you a Google Access Token. You can use it to access the Google API.
-  //       const credential = GoogleAuthProvider.credentialFromResult(result);
-  //       const token = credential.accessToken;
-  //       // The signed-in user info.
-  //       const user = result.user;
-  //       // IdP data available using getAdditionalUserInfo(result)
-  //       // ...
-  //       alert('로그인에 성공했습니다.');
-  //       navigate('/shoot');
-  //     })
-  //     .catch((error) => {
-  //       alert('로그인에 실패했습니다.');
-  //       // Handle Errors here.
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       // The email of the user's account used.
-  //       const email = error.customData.email;
-  //       // The AuthCredential type that was used.
-  //       const credential = GoogleAuthProvider.credentialFromError(error);
-  //       // ...
-  //     });
-  // };
+    signInWithPopup(auth, provider)
+      .then(() => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const token = credential.accessToken;
+        // // The signed-in user info.
+        // const user = result.user;
+        // // IdP data available using getAdditionalUserInfo(result)
+        // // ...
+        alert('로그인에 성공했습니다.');
+        navigate('/shoot');
+      })
+      .catch(() => {
+        alert('로그인에 실패했습니다.');
+      });
+  };
   return (
     <div
       style={{
@@ -128,7 +120,7 @@ const UserLogin = () => {
           </form>
         </Box>
 
-        {/* <Img src="/googleLogin.svg" onClick={handleGoogleLogin}></Img> */}
+        <Img src="/googleLogin.svg" onClick={handleGoogleLogin}></Img>
 
         <Flex justifyContent={'center'} gap="10px" padding="10">
           <Link as={ReactRouterLink} to="join" marginRight={2}>
