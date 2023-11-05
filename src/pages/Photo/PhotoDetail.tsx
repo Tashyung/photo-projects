@@ -53,13 +53,14 @@ const PhotoDetail = () => {
             onClick={() => setIsHoveredFront(!isHoveredFront)}
           >
             {
-              <div className="frame-wrap">
-                <div className="frame">
+              <FrameWrap>
+                <Imginner className="frame">
                   <img src={detail?.imageURL} alt="사진"/>  
-                </div>
-              </div>
+                </Imginner>
+                <Date>{formattedDate} ({dayOfWeek})</Date>
+              </FrameWrap>
             }
-          <Date>{formattedDate} ({dayOfWeek})</Date>
+
           </CardFront>
           <CardBack isHoveredFront={isHoveredFront} onClick={() => setIsHoveredFront(!isHoveredFront)}>
             <MapWrap latitude={detail?.location?.latitude} 
@@ -85,6 +86,40 @@ const CardWrapper = styled.div`
   height:100%;
 `
 
+const FrameWrap = styled.div`
+  position: relative;
+`
+
+const Imginner = styled.div`
+  position: absolute;
+  overflow: hidden;
+  width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index:2;
+
+  img{
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    min-width: 1000%;
+    min-height: 1000%;
+    max-width: none;
+    max-height: none;
+    -webkit-transform: translate(-50%,-50%) scale(0.1);
+    transform: translate(-50%,-50%) scale(0.1);
+  }
+
+  &:after{
+    content: "";
+    display: block;
+    padding-bottom: 133.33%;
+  }
+`
+
 const CardFront = styled.div<CardFrontProps>`
 	width: 100%;
 	height: 100%;
@@ -100,24 +135,6 @@ const CardFront = styled.div<CardFrontProps>`
   .frame-wrap{
     display: flex;
     justify-content: center;
-  }
-   .frame{
-    position: absolute;
-    max-width:500px;
-    width: 100%;
-    height: 600px;
-    background: url('/photo-bg.png') no-repeat; 
-    background-size:contain;
-    background-position: center;
-    img{
-      width: 90%;
-      margin: 0 auto;
-      position: absolute;
-      left: 50%;
-      top: 43%;
-      transform: translate(-50%, -50%);
-      z-index: -1;
-    }
   }
 
 `
@@ -147,6 +164,6 @@ const Card = styled.div`
 const Date = styled.p`
   position: absolute;
   z-index: 3;
-  bottom: -74px;
-  right: 75px;
+  top: -50px;
+  left: 10%;
 `
