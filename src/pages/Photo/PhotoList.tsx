@@ -128,9 +128,9 @@ const PhotoList = () => {
             <p>
               <img src="/calendar.png" alt="이미지" width="30" />
             </p>
-            <p>
+            <FormattedDate>
               {formattedStartDate} ~ {formattedEndDate}
-            </p>
+            </FormattedDate>
           </Flex>
           {showDate && (
             <div>
@@ -160,11 +160,13 @@ const PhotoList = () => {
           </StyledButton>
         </ButtonWrap>
       </Flex>
-      <ListWrap style={{ marginTop: 20 }}>
+      <div style={{ marginTop: 20, height: '80vh', overflow: 'auto' }}>
+        <ListWrap>
         {filteredData?.map((item) => (
           <PhotoItem key={item.imgId} imgId={item.imgId} imgURL={item.imgURL} />
         ))}
-      </ListWrap>
+        </ListWrap>
+      </div>
     </>
   );
 };
@@ -176,8 +178,6 @@ const ListWrap = styled.div`
   grid-template-columns: 1fr 1fr;
   align-items: start;
   gap: 10px;
-  overflow-y: auto;
-  height: 81vh;
 `;
 
 const ButtonWrap = styled.div`
@@ -195,3 +195,9 @@ const ButtonWrap = styled.div`
     }
   }
 `;
+
+const FormattedDate = styled.div`
+  @media (max-width:576px){
+    display: none;
+  }
+`

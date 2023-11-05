@@ -37,7 +37,9 @@ const Map: React.FC<KakaoMapProps> = ({ latitude, longitude }) => {
           let container = document.getElementById("map");
           let options = {
             center: new window.kakao.maps.LatLng(latitude, longitude),
-            level: 5,
+            level: 8,
+            draggable: false, 
+            scrollwheel: false, 
           };
           //map
           const map = new window.kakao.maps.Map(container, options);
